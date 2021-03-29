@@ -30,7 +30,7 @@ myDB(async client => {
   const myDataBase = await client.db('database').collection('users');
 
   app.route('/').get((req, res) => {
-    res.render('pug', { title: 'Connected to DB', message: 'Please login' });
+    res.render(process.cwd + '/views/pug/index', { title: 'Connected to DB', message: 'Please login' });
   });
   
   passport.serializeUser((user, done) => {
