@@ -29,7 +29,7 @@ app.use(passport.session());
 
 myDB(async client => {
   const myDataBase = await client.db('database').collection('users');
-
+  console.log
   // Be sure to change the title
   app.route('/').get((req, res) => {
     //Change the response to render the Pug template
@@ -55,9 +55,9 @@ myDB(async client => {
   });
 });
 
-app.route('/').get((req, res) => {
-  res.render(process.cwd() + '/views/pug/index', {title: 'Hello', message: 'Please login'});
-});
+//app.route('/').get((req, res) => {
+//  res.render(process.cwd() + '/views/pug/index', {title: 'Hello', message: 'Please login'});
+//});
 
 
 
