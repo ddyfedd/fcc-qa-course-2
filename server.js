@@ -12,14 +12,6 @@ const mongo = require('mongodb').MongoClient;
 const app = express();
 app.set('view engine', 'pug');
 
-mongo.connect(process.env.MONGO_URI, (error, db) => {
-  if(error){
-    console.log(error);
-  }else{
-    console.log(db);
-  }
-});
-
 fccTesting(app); //For FCC testing purposes
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use(express.json());
@@ -38,8 +30,13 @@ app.use(passport.session());
 myDB(async client => {
   const myDataBase = await client.db('database').collection('users');
 
+  // Be sure to change the title
   app.route('/').get((req, res) => {
-    res.render(process.cwd + '/views/pug/index', { title: 'Connected to DB', message: 'Please login' });
+    //Change the response to render the Pug template
+    res.render('pug', {
+      title: 'Connected to Database',
+      message: 'Please login'
+    });
   });
   
   passport.serializeUser((user, done) => {
@@ -58,9 +55,9 @@ myDB(async client => {
   });
 });
 
-//app.route('/').get((req, res) => {
-//  res.render(process.cwd() + '/views/pug/index', {title: 'Hello', message: 'Please login'});
-//});
+app.route('/').get((req, res) => {
+  res.render(process.cwd() + '/views/pug/index', {title: 'Hello', message: 'Please login'});
+});
 
 
 
