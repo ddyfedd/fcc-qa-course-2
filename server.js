@@ -7,9 +7,18 @@ const session = require('express-session');
 const passport = require('passport');
 //const { ObjectID } = require('bson');
 const ObjectID = require('mongodb').ObjectID;
+const mongo = require('mongodb').MongoClient;
 
 const app = express();
 app.set('view engine', 'pug');
+
+mongo.connect(process.env.MONGO_URI, (error, db) => {
+  if(error){
+    console.log(error);
+  }else{
+    console.log(db);
+  }
+});
 
 fccTesting(app); //For FCC testing purposes
 app.use('/public', express.static(process.cwd() + '/public'));
