@@ -37,8 +37,8 @@ myDB(async client => {
     });
   });
 
-  routes(app, myDataBase)
-  auth(app, myDataBase)
+  routes(app, myDataBase);
+  auth(app, myDataBase);
 
   
   app.use((req, res, next) => {
