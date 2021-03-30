@@ -8,6 +8,7 @@ const passport = require('passport');
 //const { ObjectID } = require('bson');
 const ObjectID = require('mongodb').ObjectID;
 const mongo = require('mongodb').MongoClient;
+const LocalStrategy = require('passport-local');
 
 const app = express();
 app.set('view engine', 'pug');
@@ -43,6 +44,19 @@ myDB(async client => {
       done(null, doc);
     });
   });
+
+  passport.use(new LocalStrategy(
+    function(username, password, done) {
+      myDataBase.findOne({ username: username }, function(err, user) {
+        console.log('User ' + username + ' attempted to log in.');
+        if (err) { return done(err); }
+        if (!user) { return done(null, false); }
+        if (password !== user.password) { return done(null, false); }
+        return done(null, user);
+      });
+    }
+  ));
+
 
 }).catch((e) => {
   app.route('/').get((req, res) => {
