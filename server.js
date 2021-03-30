@@ -39,13 +39,6 @@ myDB(async client => {
   app.route('/login').post(passport.authenticate('local', { failureRedirect: '/' }), (req, res) => {
     res.redirect('/profile');
   });
-
-  function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-      return next();
-    }
-    res.redirect('/');
-  };
   
   app.route('/profile').get(ensureAuthenticated, (req, res) => {
     res.render(process.cwd + '/views/pug/profile', { username: req.user.username });
@@ -57,7 +50,7 @@ myDB(async client => {
   });
 
   app.route('/register').post((req, res, next) => {
-    myDataBase.findOne({ username: req.body.username }, (err, user) => {
+    myDataBase.findOne({ username: req.body.username }, function(err, user) {
       if (err) {
         next(err);
       } else if (user) {
@@ -73,10 +66,9 @@ myDB(async client => {
             } else {
               next(null, doc.ops[0]);
             }
-          }
-        )
+        });
       }
-    })
+    });
   },
     passport.authenticate('local', { failureRedirect: '/' }),
     (req, res, next) => {
@@ -125,6 +117,13 @@ fccTesting(app); //For FCC testing purposes
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect('/');
+};
 
 
 const PORT = process.env.PORT || 3000;
