@@ -1,7 +1,7 @@
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 
-//const hash = bcrypt.hashSync(req.body.password, 12);
+
 
 module.exports = function(app, myDataBase) {
     app.route('/login').post(passport.authenticate('local', { failureRedirect: '/' }), (req, res) => {
@@ -18,6 +18,7 @@ module.exports = function(app, myDataBase) {
       });
     
       app.route('/register').post((req, res, next) => {
+        const hash = bcrypt.hashSync(req.body.password, 12);
         myDataBase.findOne({ username: req.body.username }, function(err, user) {
           if (err) {
             next(err);
