@@ -5,7 +5,6 @@ const myDB = require('./connection');
 const fccTesting = require('./freeCodeCamp/fcctesting.js');
 const session = require('express-session');
 const passport = require('passport');
-//const { ObjectID } = require('bson');
 const ObjectID = require('mongodb').ObjectID;
 const mongo = require('mongodb').MongoClient;
 const LocalStrategy = require('passport-local');
@@ -36,6 +35,14 @@ myDB(async client => {
     });
   });
   
+  app.route('/login').post(passport.authenticate('local', { failureRedirect: '/' }), (req, res) => {
+    res.redirect('/profile');
+  });
+
+  app.route('/profile').get((req, res) => {
+    res.render(process.cwd + '/views/pug/profile');
+  });
+
   passport.serializeUser((user, done) => {
     done(null, user._id);
   });
