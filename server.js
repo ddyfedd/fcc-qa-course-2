@@ -26,24 +26,12 @@ app.use(passport.session());
 myDB(async client => {
   const myDataBase = await client.db('database').collection('users');
   console.log
-  // Be sure to change the title
-  app.route('/').get((req, res) => {
-    //Change the response to render the Pug template
-    res.render('pug', {
-      title: 'Connected to Database',
-      message: 'Please login',
-      showLogin: true,
-      showRegistration: true
-    });
-  });
-
+  
   routes(app, myDataBase);
   auth(app, myDataBase);
 
   
-  app.use((req, res, next) => {
-    res.status(404).type('text').send('Not Found');
-  });
+
 
 }).catch((e) => {
   app.route('/').get((req, res) => {
