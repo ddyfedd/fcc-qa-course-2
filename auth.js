@@ -41,5 +41,4 @@ module.exports = function(app, myDataBase) {
           console.log(profile);
         }
       ));
-    
-}
+    };
