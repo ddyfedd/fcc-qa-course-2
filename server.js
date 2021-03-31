@@ -35,7 +35,10 @@ myDB(async (client) => {
   routes(app, myDataBase);
   auth(app, myDataBase);
 
+  let currentUsers = 0;
   io.on('connection', (socket) => {
+    ++currentUsers;
+    io.emit('user count', currentUsers);
     console.log('A user has connected');
   });
 }).catch((e) => {
@@ -43,6 +46,9 @@ myDB(async (client) => {
     res.render('pug', { title: e, message: 'Unable to login' });
   });
 });
+
+
+
 
 http.listen(process.env.PORT || 3000, () => {
   console.log('Listening on port ' + process.env.PORT);
