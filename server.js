@@ -83,6 +83,8 @@ function onAuthorizeFail(data, message, error, accept) {
   accept(null, false);
 }
 
+console.log('user ' + socket.request.user.name + ' connected');
+
 http.listen(process.env.PORT || 3000, () => {
   console.log('Listening on port ' + process.env.PORT);
 });
